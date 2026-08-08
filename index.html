@@ -550,7 +550,8 @@ body.ur .field label{ margin-bottom:2px; }
     <div class="pad">
 
       <div class="notice" id="sampleNote">
-        <p><b>This is an example</b> so you can see how it works. Type over it, or clear it and start fresh.</p>
+        <p><b>Some of this is still the example.</b> Type over every part before you send
+           this to anyone &mdash; the jobs and school below are not yours.</p>
         <button id="startBlank">Start blank</button>
       </div>
 
@@ -967,6 +968,7 @@ const BLANK = {
 function build(fieldId){
   const s = SAMPLES[fieldId];
   const out = Object.assign(clone(BLANK), clone(s || {}));
+  out.seed = clone(s || {});          // remember the example, to spot what's untouched
   out.on = clone(fieldId === 'it' ? ON.it : ON.base);
   out.personal = { father:'', dob:'', marital:'Single', nationality:'Pakistani', cnic:'' };
   out.ref = [];
@@ -1065,7 +1067,7 @@ function drawForm(){
   countSummary();
   drawParts();
   drawPhoto();
-  document.getElementById('sampleNote').style.display = S.sample ? '' : 'none';
+  refreshSampleNote();
 }
 
 function drawParts(){
@@ -1111,7 +1113,7 @@ editor.addEventListener('input', e => {
   else if (el.dataset.p){ S.personal[el.dataset.p] = el.value; }
   else if (el.dataset.g){ S[el.dataset.g][+el.dataset.i][el.dataset.f] = el.value; }
   else return;
-  if (S.sample){ S.sample = false; document.getElementById('sampleNote').style.display = 'none'; }
+  refreshSampleNote();
   render(); save();
 });
 
@@ -1521,6 +1523,10 @@ function audit(){
   const out = [];
   const push = (go, en, ur) => out.push({ go, en, ur });
 
+  leftovers().forEach(([go, en, ur]) =>
+    push(go, `Replace the example text in your ${en} with your own`,
+             `${ur} میں ابھی مثال کا متن ہے — اپنا لکھیں`));
+
   if (!has(S.name))
     push('b-you', 'Add your name', 'اپنا نام لکھیں');
 
@@ -1569,6 +1575,37 @@ function audit(){
                   'سی وی دو صفحوں سے بڑھ گئی ہے۔ پرانی نوکریاں مختصر کریں');
 
   return out;
+}
+
+/* Which parts are still exactly as the example left them?
+   Someone who fills in only their name would otherwise send out a CV
+   claiming jobs they never had. */
+function leftovers(){
+  const seed = S.seed;
+  if (!seed) return [];
+  const same = (a, b) => String(a ?? '').trim() === String(b ?? '').trim() && has(a);
+  const out = [];
+
+  if (same(S.summary, seed.summary)) out.push(['b-profile','about', 'تعارف']);
+
+  const jobsSame = (seed.exp || []).some((r, i) =>
+    S.exp[i] && same(S.exp[i].title, r.title) && same(S.exp[i].bullets, r.bullets));
+  if (jobsSame) out.push(['b-exp','work history', 'کام کا تجربہ']);
+
+  const eduSame = (seed.edu || []).some((r, i) =>
+    S.edu[i] && same(S.edu[i].title, r.title) && same(S.edu[i].org, r.org));
+  if (eduSame) out.push(['b-edu','education', 'تعلیم']);
+
+  if (same(S.skills, seed.skills)) out.push(['b-skills','skills', 'مہارتیں']);
+
+  return out;
+}
+
+function refreshSampleNote(){
+  const note = document.getElementById('sampleNote');
+  const left = leftovers();
+  S.sample = left.length > 0;
+  note.style.display = left.length ? '' : 'none';
 }
 
 function drawCheck(){
@@ -1692,6 +1729,7 @@ const UR = {
   '#pickBlank':'چھوڑیں — خالی سے شروع کریں',
   '#download span':'پی ڈی ایف ڈاؤن لوڈ کریں',
   '#dockDownload':'پی ڈی ایف ڈاؤن لوڈ کریں',
+  '#sampleNote p':'اس میں کچھ حصے ابھی مثال کے ہیں۔ کسی کو بھیجنے سے پہلے ہر حصہ اپنا لکھیں — نیچے دی گئی نوکریاں اور تعلیم آپ کی نہیں ہیں۔',
   '.credit':'یہ بالکل مفت ہے۔ نہ اکاؤنٹ، نہ واٹر مارک، نہ کوئی فیس — نہ اب، نہ بعد میں۔'
 };
 
