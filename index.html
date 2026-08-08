@@ -10,21 +10,21 @@
 <meta name="theme-color" content="#D9D6CB">
 
 <!-- =====================================================================
-     AFTER DEPLOYING: replace zevri.vercel.app on the lines marked
+     AFTER DEPLOYING: replace REPLACE-ME.vercel.app on the lines marked
      below with your real domain, so shared links show a preview image.
      ===================================================================== -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Zevri">
-<meta property="og:url"         content="https://zevri.vercel.app/">        <!-- ← replace -->
-<meta property="og:image"       content="https://zevri.vercel.app/og.png">  <!-- ← replace -->
+<meta property="og:url"         content="https://REPLACE-ME.vercel.app/">        <!-- ← replace -->
+<meta property="og:image"       content="https://REPLACE-ME.vercel.app/og.png">  <!-- ← replace -->
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt"   content="Zevri — a free CV maker for every kind of work">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="Zevri — free CV maker">
 <meta name="twitter:description" content="Build a CV in your browser and download a real PDF. No account, no watermark, no payment.">
-<meta name="twitter:image"       content="https://zevri.vercel.app/og.png"> <!-- ← replace -->
-<link rel="canonical" href="https://zevri.vercel.app/">                     <!-- ← replace -->
+<meta name="twitter:image"       content="https://REPLACE-ME.vercel.app/og.png"> <!-- ← replace -->
+<link rel="canonical" href="https://REPLACE-ME.vercel.app/">                     <!-- ← replace -->
 <meta property="og:title"       content="Zevri — free CV maker for every kind of work">
 <meta property="og:description" content="Make a CV in your browser and download a real PDF. Nothing is uploaded, nothing is charged.">
 
@@ -237,7 +237,7 @@ textarea{ resize:vertical; min-height:74px; line-height:1.5; }
 .paper{
   width:210mm; min-height:297mm; padding:14mm 15mm;
   background:var(--sheet); box-shadow:0 2px 6px rgba(0,0,0,.10),0 14px 40px rgba(0,0,0,.16);
-  font-family:var(--cv-font); color:#111;
+  font-family:var(--cv-font); color:#000;
   font-size:calc(10.2pt * var(--den)); line-height:1.42;
   print-color-adjust:exact; -webkit-print-color-adjust:exact;
 }
@@ -262,8 +262,8 @@ textarea{ resize:vertical; min-height:74px; line-height:1.5; }
   object-fit:cover; border:.5pt solid #C9CDD1;
 }
 .cv-name{ font-size:23pt; font-weight:700; line-height:1.05; letter-spacing:-.015em; color:var(--cv-accent); }
-.cv-role{ font-size:11pt; color:#3C4650; margin-top:2pt; }
-.cv-contact{ margin-top:7pt; font-size:9pt; color:#3C4650; display:flex; flex-wrap:wrap; gap:3pt 10pt; }
+.cv-role{ font-size:11pt; color:#2A3138; margin-top:2pt; }
+.cv-contact{ margin-top:7pt; font-size:9pt; color:#2A3138; display:flex; flex-wrap:wrap; gap:3pt 10pt; }
 .cv-contact span::before{ content:"·"; margin-right:10pt; color:#A8AEB4; }
 .cv-contact span:first-child::before{ content:""; margin:0; }
 .cv-hr{ height:1.2pt; background:var(--cv-accent); margin-top:11pt; }
@@ -271,22 +271,22 @@ textarea{ resize:vertical; min-height:74px; line-height:1.5; }
 .cv-sec{ margin-top:calc(13pt * var(--den)); }
 .cv-sec h3{
   font-size:9.5pt; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
-  color:var(--cv-accent); border-bottom:.6pt solid #C9CDD1; padding-bottom:3pt; margin-bottom:8pt;
+  color:var(--cv-accent); border-bottom:.7pt solid #9AA3AB; padding-bottom:3pt; margin-bottom:8pt;
 }
-.cv-sum{ font-size:10pt; color:#20272E; }
+.cv-sum{ font-size:10pt; color:#000; }
 
 .cv-item{ margin-bottom:calc(9pt * var(--den)); break-inside:avoid; page-break-inside:avoid; }
 .cv-item:last-child{ margin-bottom:0; }
 .cv-item-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10pt; }
 .cv-item-title{ font-size:10.6pt; font-weight:700; }
-.cv-item-when{ font-size:8.8pt; color:#5A646E; white-space:nowrap; flex:none; }
-.cv-item-org{ font-size:9.6pt; color:#3C4650; font-style:italic; margin-top:.5pt; }
+.cv-item-when{ font-size:8.8pt; color:#3A424A; white-space:nowrap; flex:none; }
+.cv-item-org{ font-size:9.6pt; color:#2A3138; font-style:italic; margin-top:.5pt; }
 .cv-item ul{ margin:4pt 0 0 13pt; }
-.cv-item li{ font-size:9.7pt; margin-bottom:2pt; color:#20272E; }
-.cv-item p.note{ font-size:9.7pt; margin-top:3pt; color:#20272E; }
+.cv-item li{ font-size:9.7pt; margin-bottom:2pt; color:#000; }
+.cv-item p.note{ font-size:9.7pt; margin-top:3pt; color:#000; }
 
-.cv-inline{ font-size:9.9pt; color:#20272E; }
-.cv-pairs{ display:grid; grid-template-columns:1fr 1fr; gap:2pt 16pt; font-size:9.7pt; color:#20272E; }
+.cv-inline{ font-size:9.9pt; color:#000; }
+.cv-pairs{ display:grid; grid-template-columns:1fr 1fr; gap:2pt 16pt; font-size:9.7pt; color:#000; }
 .cv-pairs b{ font-weight:700; }
 
 /* ============================================================
@@ -490,13 +490,23 @@ body.ur .field label{ margin-bottom:2px; }
    PRINT
    ============================================================ */
 @media print{
-  @page{ size:A4; margin:14mm 15mm; }
+  /* margin 0 leaves the browser nowhere to print the date and web address,
+     so it drops them. The margin lives on the sheet instead. */
+  @page{ size:A4; margin:0; }
+
   html,body{ background:#fff; height:auto; }
-  .bar,.editor,.breaks,.stage-foot,.toast,.veil{ display:none !important; }
+  body{ padding:0; }
+  .bar,.editor,.breaks,.stage-foot,.toast,.veil,.dock{ display:none !important; }
   .work{ display:block; height:auto; }
   .stage{ display:block; padding:0; overflow:visible; background:none; height:auto; }
   .fit{ transform:none !important; width:auto; height:auto !important; }
-  .paper{ width:auto; min-height:0; padding:0; box-shadow:none; font-size:calc(10.2pt * var(--den)); }
+  .paper{
+    width:210mm; min-height:0;
+    padding:14mm 15mm;
+    box-shadow:none; border:0;
+    font-size:calc(10.2pt * var(--den));
+    -webkit-font-smoothing:auto;
+  }
 }
 </style>
 </head>
@@ -1388,27 +1398,26 @@ function buildTip(){
 
   if (isIOS){
     head = 'Saving the PDF on iPhone';
-    lead = 'Your phone makes the PDF. Three taps.';
+    lead = 'Your phone makes the PDF. Two taps.';
     steps = [
-      'The print sheet opens. If the page preview looks small, pinch outward on it.',
-      'Tap the <b>share icon</b> at the top of the preview.',
+      'Tap the <b>share icon</b> at the top of the page preview.',
       'Choose <b>Save to Files</b> and pick a folder.'
     ];
   } else if (isAndroid){
     head = 'Saving the PDF on Android';
-    lead = 'Your phone makes the PDF. Check these before saving.';
+    lead = 'Your phone makes the PDF.';
     steps = [
-      'At the top, set the destination to <b>Save as PDF</b>.',
-      'Tap the small arrow to open more options and switch <b>Headers and footers</b> off.',
-      'Tap the round <b>save</b> button and choose a folder.'
+      'Set the destination to <b>Save as PDF</b>.',
+      'Leave <b>Margins</b> on Default — the spacing is already set on the page.',
+      'Tap <b>save</b> and choose a folder.'
     ];
   } else {
-    head = 'Three settings in the print box';
-    lead = 'Your browser makes the PDF. Set these once and it comes out clean.';
+    head = 'Saving your PDF';
+    lead = 'Your browser makes the PDF. Two settings, then save.';
     steps = [
       'Destination — choose <b>Save as PDF</b>.',
-      'Margins — leave on <b>Default</b>. The spacing is already set.',
-      'Open <b>More settings</b> and switch <b>Headers and footers</b> off, or today\'s date and this page\'s address will print on your CV.'
+      'Margins — leave on <b>Default</b>. The spacing is already set on the page.',
+      'If you still see a date or web address on the preview, open <b>More settings</b> and switch <b>Headers and footers</b> off.'
     ];
   }
 
