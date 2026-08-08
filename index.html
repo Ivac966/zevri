@@ -10,21 +10,21 @@
 <meta name="theme-color" content="#D9D6CB">
 
 <!-- =====================================================================
-     AFTER DEPLOYING: replace zevri.vercel.app on the lines marked
+     AFTER DEPLOYING: replace REPLACE-ME.vercel.app on the lines marked
      below with your real domain, so shared links show a preview image.
      ===================================================================== -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Zevri">
-<meta property="og:url"         content="https://zevri.vercel.app/">        <!-- ← replace -->
-<meta property="og:image"       content="https://zevri.vercel.app/og.png">  <!-- ← replace -->
+<meta property="og:url"         content="https://REPLACE-ME.vercel.app/">        <!-- ← replace -->
+<meta property="og:image"       content="https://REPLACE-ME.vercel.app/og.png">  <!-- ← replace -->
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt"   content="Zevri — a free CV maker for every kind of work">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="Zevri — free CV maker">
 <meta name="twitter:description" content="Build a CV in your browser and download a real PDF. No account, no watermark, no payment.">
-<meta name="twitter:image"       content="https://zevri.vercel.app/og.png"> <!-- ← replace -->
-<link rel="canonical" href="https://zevri.vercel.app/">                     <!-- ← replace -->
+<meta name="twitter:image"       content="https://REPLACE-ME.vercel.app/og.png"> <!-- ← replace -->
+<link rel="canonical" href="https://REPLACE-ME.vercel.app/">                     <!-- ← replace -->
 <meta property="og:title"       content="Zevri — free CV maker for every kind of work">
 <meta property="og:description" content="Make a CV in your browser and download a real PDF. Nothing is uploaded, nothing is charged.">
 
@@ -230,7 +230,7 @@ textarea{ resize:vertical; min-height:74px; line-height:1.5; }
 .credit b{ color:var(--ink); font-weight:600; }
 
 /* ---------- paper ---------- */
-.stage{ overflow:auto; background:var(--board); padding:34px 24px 60px; display:flex; flex-direction:column; align-items:center; }
+.stage{ overflow:auto; overscroll-behavior:contain; background:var(--board); padding:34px 24px 60px; display:flex; flex-direction:column; align-items:center; }
 .stage::-webkit-scrollbar{ width:11px; }
 .stage::-webkit-scrollbar-thumb{ background:#B3AFA2; border:3px solid var(--board); border-radius:99px; }
 
@@ -436,10 +436,17 @@ body.ur .field label{ margin-bottom:2px; }
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width:1080px){
+@media (max-width:1200px){
+  /* one column, and the PAGE scrolls — not two separate panes */
   :root{ --dock-h:62px; }
+  html, body{ height:auto; }
+  body{ padding-bottom:var(--dock-h); }
 
-  .work{ grid-template-columns:1fr; }
+  .work{ display:block; height:auto; }
+  .editor{ overflow:visible; height:auto; }
+  .steps{ top:var(--bar-h); }
+  .stage{ height:auto; overflow:visible; }
+
   .editor{ border-right:0; }
   .stage{ display:none; }
   body.show-preview .editor{ display:none; }
@@ -473,6 +480,12 @@ body.ur .field label{ margin-bottom:2px; }
   .card-lg{ padding:20px; }
   .jobs{ grid-template-columns:1fr 1fr; }
 }
+@media (max-height:760px) and (min-width:1201px){
+  :root{ --bar-h:52px; --nav-h:42px; }
+  .pad{ padding-top:16px; }
+  .block{ margin-bottom:24px; }
+}
+
 @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } }
 
 /* ============================================================
@@ -1292,7 +1305,7 @@ const spy = new IntersectionObserver(items => {
     document.querySelectorAll('#steps button').forEach(b =>
       b.setAttribute('aria-current', b.dataset.go === it.target.id));
   });
-}, { root:editor, rootMargin:'-20% 0px -65% 0px' });
+}, { rootMargin:'-25% 0px -60% 0px' });
 document.querySelectorAll('.block[data-nav]').forEach(b => spy.observe(b));
 
 /* ============================================================
